@@ -194,6 +194,21 @@ export interface paths {
          *     Args:
          *         n_days (int): The number of days from which to fetch ticket data.
          *         Default is 31 days.
+         *
+         *     Returns:
+         *         dict: A dictionary containing the total number of tickets,
+         *         tickets by status, tickets by flavor, and tickets by type.
+         *         The keys are:
+         *             - total_tickets: Total number of tickets.
+         *             - tickets_by_status: A dictionary with ticket status as keys
+         *                 and the count of tickets as values.
+         *             - tickets_by_flavor: A dictionary with ticket flavor as keys
+         *                 and the count of tickets as values.
+         *             - tickets_by_type: A dictionary with ticket type as keys
+         *                 and the count of tickets as values.
+         *             - n_days: The number of days for which the data is fetched.
+         *             - start_date: The start date of the data range in ISO format.
+         *             - end_date: The end date of the data range in ISO format.
          */
         get: operations["get_stats_api_v1_stats_get"];
         put?: never;
@@ -228,71 +243,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** Flag */
-        Flag: {
-            /**
-             * Barcode
-             * @description Barcode of the product, if the flag is about a product or a product image. In case of a search issue, this field is null.
-             */
-            barcode?: string | null;
-            /** @description Type of the issue */
-            type: components["schemas"]["IssueType"];
-            /**
-             * Url
-             * @description URL of the product or of the flagged image
-             */
-            url: string;
-            /**
-             * User Id
-             * @description Open Food Facts User ID of the flagger
-             */
-            user_id: string;
-            /** @description Source of the flag. It can be a user from the mobile app, the web or a flag generated automatically by robotoff. */
-            source: components["schemas"]["SourceType"];
-            /**
-             * Confidence
-             * @description Confidence score of the model that generated the flag, this field should only be provided by Robotoff.
-             */
-            confidence?: number | null;
-            /**
-             * Image Id
-             * @description ID of the flagged image
-             */
-            image_id?: string | null;
-            /** @description Flavor (project) associated with the ticket */
-            flavor: components["schemas"]["Flavor"];
-            /**
-             * Reason
-             * @description Reason for flagging provided by the user. The field is optional.
-             */
-            reason?: string | null;
-            /**
-             * Comment
-             * @description Comment provided by the user during flagging. This is a free text field.
-             */
-            comment?: string | null;
-            /**
-             * Created At
-             * Format: date-time
-             * @description Creation datetime of the flag
-             */
-            created_at?: string;
-            /**
-             * Id
-             * @description ID of the flag
-             */
-            id: number;
-            /**
-             * Ticket Id
-             * @description ID of the ticket associated with the flag
-             */
-            ticket_id: number;
-            /**
-             * Device Id
-             * @description Device ID of the flagger
-             */
-            device_id: string;
-        };
         /** FlagCreate */
         FlagCreate: {
             /**
@@ -322,6 +272,8 @@ export interface components {
             /**
              * Image Id
              * @description ID of the flagged image
+             * @example 1
+             * @example front_fr
              */
             image_id?: string | null;
             /** @description Flavor (project) associated with the ticket */
@@ -360,21 +312,6 @@ export interface components {
          * @enum {string}
          */
         Flavor: "off" | "obf" | "opff" | "opf" | "off-pro";
-        /** GetFlagsResponse */
-        GetFlagsResponse: {
-            /** Flags */
-            flags: components["schemas"]["Flag"][];
-        };
-        /**
-         * GetTicketsResponse
-         * @description Response model for get_tickets endpoint.
-         */
-        GetTicketsResponse: {
-            /** Tickets */
-            tickets: components["schemas"]["Ticket"][];
-            /** Max Page */
-            max_page: number;
-        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -397,99 +334,6 @@ export interface components {
          * @enum {string}
          */
         SourceType: "mobile" | "web" | "robotoff";
-        /**
-         * StatsResponse
-         * @description Response model for get_stats endpoint.
-         */
-        StatsResponse: {
-            /**
-             * Total Tickets
-             * @description Total number of tickets in the database
-             */
-            total_tickets: number;
-            /**
-             * Tickets By Status
-             * @description A dictionary with ticket status as keys and the count of tickets as values
-             */
-            tickets_by_status: {
-                [key: string]: unknown;
-            };
-            /**
-             * Tickets By Flavor
-             * @description A dictionary with ticket flavor as keys and the count of tickets as values
-             */
-            tickets_by_flavor: {
-                [key: string]: unknown;
-            };
-            /**
-             * Tickets By Type
-             * @description A dictionary with ticket type as keys and the count of tickets as values
-             */
-            tickets_by_type: {
-                [key: string]: unknown;
-            };
-            /**
-             * N Days
-             * @description The number of days for which the data is fetched
-             */
-            n_days: number;
-            /**
-             * Start Date
-             * @description The start date of the data range in ISO format
-             */
-            start_date: string;
-            /**
-             * End Date
-             * @description The end date of the data range in ISO format
-             */
-            end_date: string;
-        };
-        /** StatusResponse */
-        StatusResponse: {
-            /**
-             * Status
-             * @description Health status of the API
-             */
-            status: string;
-        };
-        /** Ticket */
-        Ticket: {
-            /**
-             * Barcode
-             * @description Barcode of the product, if the ticket is about a product or a product image. In case of a search issue, this field is null.
-             */
-            barcode?: string | null;
-            /** @description Type of the issue */
-            type: components["schemas"]["IssueType"];
-            /**
-             * Url
-             * @description URL of the product or of the flagged image
-             */
-            url: string;
-            /**
-             * @description Status of the ticket
-             * @default open
-             */
-            status: components["schemas"]["TicketStatus"];
-            /**
-             * Image Id
-             * @description ID of the flagged image, if the ticket type is `image`
-             */
-            image_id?: string | null;
-            /** @description Flavor (project) associated with the ticket */
-            flavor: components["schemas"]["Flavor"];
-            /**
-             * Created At
-             * Format: date-time
-             * @description Creation datetime of the ticket
-             */
-            created_at?: string;
-            /**
-             * Id
-             * @description ID of the ticket
-             */
-            id: number;
-        };
         /**
          * TicketStatus
          * @enum {string}
@@ -568,7 +412,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["GetFlagsResponse"];
+                    "application/json": unknown;
                 };
             };
         };
@@ -592,7 +436,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Flag"];
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -623,7 +467,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Flag"];
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -658,7 +502,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["GetTicketsResponse"];
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -755,7 +599,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Ticket"];
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -786,7 +630,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["StatsResponse"];
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -815,7 +661,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["StatusResponse"];
+                    "application/json": unknown;
                 };
             };
         };

@@ -286,6 +286,33 @@ export class ProductOpenerApiV2 {
   }
 
   /**
+   * Updates the barcode of a product (moderator-only action)
+   * @param currentCode - The current barcode of the product
+   * @param newCode - The correct barcode to replace the current one
+   * @returns A promise that resolves to true if successful, false otherwise
+   * @example
+   * const success = await changeBarcode("12345", "54321");
+   */
+  async changeBarcode(
+    currentCode: string,
+    newCode: string,
+    credentials?: { username?: string; password?: string },
+  ): Promise<boolean> {
+    const res = await this.client.POST("/cgi/product_jqm2.pl", {
+      body: {
+        code: currentCode,
+        new_code: newCode,
+        user_id: credentials?.username ?? "",
+        password: credentials?.password ?? "",
+      },
+    });
+    
+    // The endpoint returns JSON like { status: 1, status_verbose: "..." }
+    const resData = res.data as any;
+    return resData?.status === 1 || resData?.status_code === 0 || res.response.ok;
+  }
+
+  /**
    * Returns product data using the V2 API
    * @param barcode - The barcode of the product
    * @returns A promise that resolves to the product data or undefined if not found

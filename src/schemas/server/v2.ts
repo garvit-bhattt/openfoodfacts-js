@@ -802,7 +802,7 @@ export interface components {
             categories_tags?: components["schemas"]["indexed_taxonomy_tag_entry"][];
             checkers_tags?: string[];
             cities?: string;
-            cities_tags?: Record<string, unknown>[];
+            cities_tags?: Record<string, never>[];
             correctors_tags?: string[];
             /** @description List of countries where the product is sold. */
             countries?: string;
@@ -823,7 +823,7 @@ export interface components {
              */
             emb_codes?: string;
             emb_codes_orig?: string;
-            emb_codes_tags?: Record<string, unknown>[];
+            emb_codes_tags?: Record<string, never>[];
             labels?: string;
             labels_hierarchy?: string[];
             labels_lc?: string;
@@ -1154,7 +1154,7 @@ export interface components {
             };
             ecoscore_extended_data_version?: string;
             environment_impact_level?: string;
-            environment_impact_level_tags?: Record<string, unknown>[];
+            environment_impact_level_tags?: Record<string, never>[];
         };
         /**
          * ingredients
@@ -1183,7 +1183,7 @@ export interface components {
             ingredients_analysis_tags?: string[];
             ingredients_from_or_that_may_be_from_palm_oil_n?: number;
             ingredients_from_palm_oil_n?: number;
-            ingredients_from_palm_oil_tags?: Record<string, unknown>[];
+            ingredients_from_palm_oil_tags?: Record<string, never>[];
             ingredients_hierarchy?: string[];
             ingredients_n?: number;
             ingredients_n_tags?: string[];
@@ -1222,7 +1222,7 @@ export interface components {
              */
             ingredients_text_with_allergens?: string;
             ingredients_that_may_be_from_palm_oil_n?: number;
-            ingredients_that_may_be_from_palm_oil_tags?: Record<string, unknown>[];
+            ingredients_that_may_be_from_palm_oil_tags?: Record<string, never>[];
             ingredients_with_specified_percent_n?: number;
             ingredients_with_specified_percent_sum?: number;
             ingredients_with_unspecified_percent_n?: number;
@@ -1230,9 +1230,9 @@ export interface components {
             known_ingredients_n?: number;
             /** @description Origins of ingredients */
             origins?: string;
-            origins_hierarchy?: Record<string, unknown>[];
+            origins_hierarchy?: Record<string, never>[];
             origins_lc?: string;
-            origins_tags?: Record<string, unknown>[];
+            origins_tags?: Record<string, never>[];
             /**
              * @description List of substances that might cause allergies
              *     that are present in trace amounts in the product
@@ -1241,9 +1241,9 @@ export interface components {
              *     It is taxonomized with the allergens taxonomy. Refer to the [allergens taxonomy](https://static.openfoodfacts.org/data/taxonomies/allergens.json)
              */
             traces?: string;
-            traces_hierarchy?: (Record<string, unknown> | string)[];
+            traces_hierarchy?: (Record<string, never> | string)[];
             traces_lc?: string;
-            traces_tags?: (Record<string, unknown> | string)[];
+            traces_tags?: (Record<string, never> | string)[];
             unknown_ingredients_n?: number;
         } & {
             [key: string]: string;
@@ -1415,9 +1415,9 @@ export interface components {
             nutrition_score_warning_fruits_vegetables_nuts_estimate_from_ingredients?: number;
             nutrition_score_warning_fruits_vegetables_nuts_estimate_from_ingredients_value?: number;
             nutrition_score_warning_no_fiber?: number;
-            other_nutritional_substances_tags?: Record<string, unknown>[];
-            unknown_nutrients_tags?: Record<string, unknown>[];
-            vitamins_tags?: Record<string, unknown>[];
+            other_nutritional_substances_tags?: Record<string, never>[];
+            unknown_nutrients_tags?: Record<string, never>[];
+            vitamins_tags?: Record<string, never>[];
         };
         /**
          * @description Nutri-Score for the product as a letter.
@@ -1720,11 +1720,11 @@ export interface components {
         product_extended: {
             additives_original_tags?: string[];
             additives_prev_original_tags?: string[];
-            added_countries_tags?: Record<string, unknown>[];
+            added_countries_tags?: Record<string, never>[];
             allergens_from_ingredients?: string;
             allergens_from_user?: string;
-            amino_acids_prev_tags?: Record<string, unknown>[];
-            amino_acids_tags?: Record<string, unknown>[];
+            amino_acids_prev_tags?: Record<string, never>[];
+            amino_acids_tags?: Record<string, never>[];
             carbon_footprint_percent_of_known_ingredients?: number;
             categories_properties?: {
                 "agribalyse_food_code:en"?: string;
@@ -1748,9 +1748,9 @@ export interface components {
             expiration_date?: string;
             /** @description link to the product on the website of the producer */
             link?: string;
-            main_countries_tags?: Record<string, unknown>[];
-            minerals_prev_tags?: Record<string, unknown>[];
-            minerals_tags?: Record<string, unknown>[];
+            main_countries_tags?: Record<string, never>[];
+            minerals_prev_tags?: Record<string, never>[];
+            minerals_tags?: Record<string, never>[];
             /**
              * @description Those are fields provided by the producer (through producers platform),
              *     and the value he provided.
@@ -1760,13 +1760,13 @@ export interface components {
                  * @description you can retrieve all kind of properties, the same as on the parent object (the product).
                  *     It's not processed entries (like tags for example) but raw ones.
                  */
-                additionalProperties?: number | string | Record<string, unknown>;
+                additionalProperties?: number | string | Record<string, never>;
             };
             /** @description Detail of ingredients or processing that makes the products having Nova 3 or 4 */
             nova_groups_markers?: {
                 [key: string]: string[][];
             };
-            nucleotides_tags?: Record<string, unknown>[];
+            nucleotides_tags?: Record<string, never>[];
             origin?: string;
             /**
              * @description Country, state, or city where the product can be purchased.
@@ -1838,7 +1838,7 @@ export interface components {
             sources?: {
                 fields?: string[];
                 id?: string;
-                images?: Record<string, unknown>[];
+                images?: Record<string, never>[];
                 import_t?: number;
                 manufacturer?: number | string;
                 name?: string;
@@ -1983,7 +1983,7 @@ export interface components {
             /** @description The ids of the panels to include. The ids are the keys of the panels in the panels object returned in the knowledge_panels field. */
             panel_ids?: string[];
             /** @description An image related to the panel group (e.g. the ingredients or nutrition facts image for the ingredients and nutrition panel groups). */
-            image?: Record<string, unknown>;
+            image?: Record<string, never>;
         };
         /**
          * table_element
@@ -2704,6 +2704,14 @@ export interface components {
              */
             value?: number;
             /**
+             * @description A normalized float value for the quantity, computed by the system (not entered by a user or manufacturer).
+             *     This is used only for values that are computed from other nutrient values, like energy computed from fat, carbohydrates and proteins.
+             *     And salt or sodium computed from each other.
+             * @example 150
+             * @example 250.5
+             */
+            value_computed?: number;
+            /**
              * @description The unit of the value entered by the contributor (a user or the manufacturer), for the product.
              *     In most cases, this unit is the unit displayed on the product for the nutrient, but it is not guaranteed, as some apps may force specific units when writing nutrient values.
              *
@@ -2810,13 +2818,13 @@ export interface components {
                  *
                  *     (per 100g or per serving) in a standard unit (g or ml)
                  */
-                energy_kcal?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
+                "energy-kcal"?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
                 /**
                  * @description energy in kj, if it is specified
                  *
                  *     (per 100g or per serving) in a standard unit (g or ml)
                  */
-                energy_kj?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
+                "energy-kj"?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
                 fat?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
                 "saturated-fat"?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
                 "trans-fat"?: components["schemas"]["nutrient_values_v3_base"] & components["schemas"]["nutrients_source_v3"];
@@ -2888,13 +2896,13 @@ export interface components {
                  *
                  *     (per 100g or per serving) in a standard unit (g or ml)
                  */
-                energy_kcal?: components["schemas"]["nutrient_values_v3_with_value_string"];
+                "energy-kcal"?: components["schemas"]["nutrient_values_v3_with_value_string"];
                 /**
                  * @description energy in kj, if it is specified
                  *
                  *     (per 100g or per serving) in a standard unit (g or ml)
                  */
-                energy_kj?: components["schemas"]["nutrient_values_v3_with_value_string"];
+                "energy-kj"?: components["schemas"]["nutrient_values_v3_with_value_string"];
                 fat?: components["schemas"]["nutrient_values_v3_with_value_string"];
                 "saturated-fat"?: components["schemas"]["nutrient_values_v3_with_value_string"];
                 "trans-fat"?: components["schemas"]["nutrient_values_v3_with_value_string"];
